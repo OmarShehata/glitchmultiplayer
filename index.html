@@ -1,0 +1,104 @@
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Multiplayer Experiment</title>
+        <!-- Load our third party libaries -->
+        <script src="lib/phaser.min.js"></script>
+
+        <!-- Some simple styles and fonts -->
+        <style type="text/css">
+            body,html { /* Remove margins */
+                margin: 0px;
+                position: relative;
+                background-color:#d0f4f7; 
+            }
+            canvas { /* Center the canvas */
+                margin:auto;
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body>
+        <script type="text/javascript">
+            //We first initialize the phaser game object
+            var WINDOW_WIDTH = 750;
+            var WINDOW_HEIGHT = 500;
+            var game = new Phaser.Game(WINDOW_WIDTH, WINDOW_HEIGHT, Phaser.AUTO, '', {preload:preload, create:create, update:GameLoop} );
+
+            var player = {
+                sprite:null,//Will hold the sprite when it's created 
+                speedX:0,
+                speedY:0,
+                friction:0.85,
+                jumping:false,
+                update: function(){
+                    // Jump 
+                    if(!this.jumping && (game.input.keyboard.isDown(Phaser.Keyboard.W) || game.input.keyboard.isDown(Phaser.Keyboard.UP)) ){
+                        this.speedY = -12;
+                        this.jumping = true;
+                    }
+
+                    // Left/right movement 
+                    if(game.input.keyboard.isDown(Phaser.Keyboard.A) || game.input.keyboard.isDown(Phaser.Keyboard.LEFT)){
+                        this.speedX -= 1;
+                        this.sprite.scale.x = -1;
+                    }
+                    if(game.input.keyboard.isDown(Phaser.Keyboard.D) || game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)){
+                        this.speedX += 1;
+                        this.sprite.scale.x = 1;
+                    }
+
+                    // Gravity/falling
+                    this.speedY +=0.5; 
+                    if(this.speedY > 10) this.speedY = 10;
+
+                    this.speedX *= this.friction;
+
+                    this.sprite.x += this.speedX;
+                    this.sprite.y += this.speedY;
+
+                    // Hardcoded Collision 
+                    if(this.sprite.y > 375){
+                        this.sprite.y = 375;
+                        this.speedY = 0;
+                        this.jumping = false;
+                    }
+
+
+                }
+            };
+
+            var groundArray = [];
+
+            function init_ground(){
+                for(var i=0;i<=WINDOW_WIDTH/70;i++){
+                    var tile = game.add.sprite(i*70,WINDOW_HEIGHT-35,'tile');
+                    tile.anchor.setTo(0.5,0.5);
+                    groundArray.push(tile);
+                }
+                
+            }
+
+            function preload(){
+                game.stage.backgroundColor = "#d0f4f7";
+
+                game.load.image('player_stand','assets/player_stand.png');
+                game.load.image('player_jump','assets/player_jump.png');
+                game.load.image('tile','assets/tile.png');
+            }
+
+            function create(){
+                player.sprite = game.add.sprite(game.world.centerX,game.world.centerY,'player_stand');
+                player.sprite.anchor.setTo(0.5,0.5);
+
+                init_ground();
+            }
+
+            function GameLoop(){
+                player.update();
+            }
+
+        </script>
+
+    </body>
+</html>
