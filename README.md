@@ -263,7 +263,7 @@ socket.on('bullet-update',function(bullets){
 })
 ```
 
-Now test it out! **There should be a bug in there. Can you fix it? **
+Now test it out! **There should be a bug in there. Can you fix it?**
 
 The complete implementation of this step is on the [step3](https://github.com/OmarShehata/glitchmultiplayer/tree/step3). 
 
