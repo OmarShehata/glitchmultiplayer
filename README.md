@@ -141,7 +141,15 @@ Try sharing that link with someone (or opening it on your phone) !
 
 This is where it gets interesting. We want to update players so we can see them moving in real time.
 
-TODO: Emit when move, and recieve on move 
+Your task is to:
+
+* Make client `emit` when they've moved.
+* Make client listen for move events and update the players on screen.
+* Make server broadcast any move event it receives to all other players.
+
+This is one straightforward way to sync a multiplayer game; send the state to everyone every time it changes. 
+
+**Try doing this on your own**. The solution is implemented on the [step2](https://github.com/OmarShehata/glitchmultiplayer/tree/step2) branch.
 
 ## 3. Sync Bullets
 
