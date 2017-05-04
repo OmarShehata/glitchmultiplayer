@@ -49,6 +49,7 @@ io.on('connection', function(socket){
 	socket.on('bullet-shot',function(bullet_state){
 		// bullet_state should be an object like {x:[Number],y:[Number],speed_x:[Number],speed_y:[Number]}
 		bullet_array.push(bullet_state);
+		bullet_state.owner_id = socket.id;
 	})
 
 })
@@ -60,6 +61,20 @@ gameloop.setGameLoop(function(delta) {
         var bullet = bullet_array[i];
         bullet.x += bullet.speed_x; // Notice it's no longer bullet.sprite.x 
         bullet.y += bullet.speed_y; 
+
+        // Check if it hit any player 
+        for(var id in players){
+        	if(bullet.owner_id != id){
+        		// And your own bullet shouldn't kill it 
+        		var dx = players[id].x - bullet.x; 
+        		var dy = players[id].y - bullet.y;
+        		var dist = Math.sqrt(dx * dx + dy * dy);
+        		if(dist < 70){
+        			io.emit('player-hit',id);
+        		}
+        	}
+        }
+
         // Remove if it goes too far off screen 
         if(bullet.x < -10 || bullet.x > 2000 || bullet.y < -10 || bullet.y > 2000){
             bullet_array.splice(i,1);
