@@ -85,6 +85,9 @@
                         this.sprite.alpha = 1;
                     }
 
+                    // Send my position to the server 
+                    socket.emit('move-update',socket.id,{x:this.sprite.x,y:this.sprite.y,angle:this.sprite.rotation})
+
                 }
                     
                   
@@ -156,6 +159,16 @@
                             delete other_players[id];
                         }
                     }
+                })
+
+                // Listen for move updates from the server 
+                socket.on('move-update',function(player_id,new_state){
+                    if(other_players[player_id] == undefined) return; // A player we don't know about is sending us updates!
+                    // This might happen if you restart the server while a client is still connected. 
+
+                    other_players[player_id].x = new_state.x; 
+                    other_players[player_id].y = new_state.y; 
+                    other_players[player_id].rotation = new_state.angle;
                 })
 
                 game.world.setBounds(0, 0, WORLD_SIZE.w, WORLD_SIZE.h);

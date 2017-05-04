@@ -36,4 +36,10 @@ io.on('connection', function(socket){
 		// Broadcast to everyone else the new updated player list
 		socket.broadcast.emit('update-players',players);
 	})
+
+	// Listen for movement updates 
+	socket.on('move-update',function(player_id,new_state){
+		// Send this to every other player 
+		socket.broadcast.emit('move-update',player_id,new_state);
+	})
 })
