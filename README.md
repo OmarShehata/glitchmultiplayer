@@ -153,7 +153,7 @@ This is one straightforward way to sync a multiplayer game; send the state to ev
 
 ## 3. Sync Bullets
 
-You could sync the bullets the same way, but it would be better design to have the server simulate and handle them. 
+
 
 TODO: Give them this step with bullets done, but no hit signal. 
 
@@ -163,7 +163,9 @@ TODO: Describe making the server give each ship a unique ship type.
 
 ## Bonus: Intepolate Positions 
 
-TODO: Describe interpolating positons of other players to reduce lag 
+In an ideal world, you'll have a constant stream of position updates and all your ships will look smooth. But we need to account for lag. One way to do that is to interpolate positions of the ships in between the time it takes to get another update. 
+
+**Try doing this on your own**. The solution is implemented in the [bonus-interpolate-positions](https://github.com/OmarShehata/glitchmultiplayer/tree/bonus-interpolate-positions) branch. 
 
 ## Bonus: Simulate Bullet on Client 
 
