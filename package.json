@@ -1,0 +1,10 @@
+{
+  "name": "glitchmultiplayer",
+  "version": "0.0.1",
+  "description": "Contains the starter kit & steps for the GlitchCon 2017 Socket.io multiplayer workshop!",
+  "dependencies": {
+    "express": "^4.10.2",
+    "node-gameloop": "*",
+    "socket.io": "^1.4.4"
+  }
+}
