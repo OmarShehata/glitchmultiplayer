@@ -166,9 +166,10 @@
                     if(other_players[player_id] == undefined) return; // A player we don't know about is sending us updates!
                     // This might happen if you restart the server while a client is still connected. 
 
-                    other_players[player_id].x = new_state.x; 
-                    other_players[player_id].y = new_state.y; 
-                    other_players[player_id].rotation = new_state.angle;
+                    // Instead of just setting the positions, I'll set the target
+                    other_players[player_id].target_x = new_state.x; 
+                    other_players[player_id].target_y = new_state.y; 
+                    other_players[player_id].target_rotation = new_state.angle;
                 })
 
                 game.world.setBounds(0, 0, WORLD_SIZE.w, WORLD_SIZE.h);
@@ -188,6 +189,20 @@
                 game.camera.x += (camera_x - game.camera.x) * 0.08;
                 game.camera.y += (camera_y - game.camera.y) * 0.08;
 
+                // Interpolate all players to where they should be 
+                for(var id in other_players){
+                    var p = other_players[id];
+                    if(p.target_x != undefined){
+                        p.x += (p.target_x - p.x) * 0.16;
+                        p.y += (p.target_y - p.y) * 0.16;
+                        // Intepolate angle while avoiding the positive/negative issue 
+                        var angle = p.target_rotation;
+                        var dir = (angle - p.rotation) / (Math.PI * 2);
+                        dir -= Math.round(dir);
+                        dir = dir * Math.PI * 2;
+                        p.rotation += dir * 0.16;
+                    }
+                }
                
                 // Update bullets 
                 for(var i=0;i<bullet_array.length;i++){
