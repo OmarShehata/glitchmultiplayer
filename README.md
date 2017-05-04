@@ -204,7 +204,7 @@ gameloop.setGameLoop(function(delta) {
         bullet.x += bullet.speed_x; // Notice it's no longer bullet.sprite.x 
         bullet.y += bullet.speed_y; 
         // Remove if it goes too far off screen 
-        if(bullet.sprite.x < -10 || bullet.sprite.x > 2000 || bullet.sprite.y < -10 || bullet.sprite.y > 2000){
+        if(bullet.x < -10 || bullet.x > 2000 || bullet.y < -10 || bullet.y > 2000){
             bullet_array.splice(i,1);
             // "Destroying" a bullet now is just a matter of removing it from the array 
             // The client is responsible for handling the actual sprites 
@@ -250,18 +250,22 @@ socket.on('bullet-update',function(bullets){
 	} else {
 	    //Otherwise, just update it! 
 	    bullet_array[i].x = bullets[i].x; 
-	    bullet_array[i].y = bullets[i].y;
+	    bullet_array[i].x = bullets[i].y;
 	}
     }
     // Otherwise if there's too many, delete the extra 
     for(var i=bullets.length;i<bullet_array.length;i++){
 	bullet_array[i].destroy();
-	bullet_array[i].splice(i,1);
+	bullet_array.splice(i,1);
 	i--;
     }
 
 })
 ```
+
+Now test it out! **There should be a bug in there. Can you fix it? **
+
+The complete implementation of this step is on the [step3](https://github.com/OmarShehata/glitchmultiplayer/tree/step3). 
 
 ## Bonus: Unique Ship Types
 
