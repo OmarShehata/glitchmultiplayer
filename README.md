@@ -131,7 +131,11 @@ You can see a functional implementation of that on the [step1](https://github.co
 
 If you want to expose your localhost to the outside world, so other people around you can join your game session, the `ngrok` package is an easy way to do that.
 
-TODO: Write how to install and use it. 
+* Run `npm install ngrok -g` 
+* Run your localhost in a seperate terminal (`node index.js`)
+* Run `ngrok http 5000` to get a public URL to that local port
+
+Try sharing that link with someone (or opening it on your phone) !
 
 ## 2. Sync Positions
 
