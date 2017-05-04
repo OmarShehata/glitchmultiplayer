@@ -8,9 +8,11 @@ This workshop will walk you through creating a simple top-down shooter with [Pha
 
 Art by [Kenny](https://kenney.nl/assets/pirate-pack).
 
+## [Experimental Online-Only Guide](GlitchGuide.md) - if you don't have things set up locally. 
+
 ## 0. Setup 
 
-You should have [Node.js](https://nodejs.org/en/) installed. (You can alternatively follow along completely in your browser using [Glitch](https://glitch.com/) ). 
+You should have [Node.js](https://nodejs.org/en/) installed. 
 
 * Clone or [download](https://github.com/OmarShehata/glitchmultiplayer/archive/master.zip) this repository. 
 * Extract it/navigate to the downloaded folder.
