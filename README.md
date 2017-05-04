@@ -159,6 +159,70 @@ A different way of syncing objects is by having the _server_ be in charge of the
 * Server simulates all the bullet motion 
 * Server broadcasts the position of every bullet to everyone 
 
+### 3. a. Install `node-gameloop`
+
+This is a handy package for running a gameloop on the server. Do:
+
+* `npm install node-gameloop`
+* Include it in the server code:
+
+```javascript
+var gameloop = require('node-gameloop'); // Gameloop helps us to run some game logic on the server 
+```
+
+* Set up the game loop at the bottom of the server code:
+
+```javascript
+var fps = 60;
+gameloop.setGameLoop(function(delta) {
+	// This will run at 60 fps 
+	
+}, 1000 / fps);
+```
+
+### 3. b. Simulate Bullets on Server
+
+* Create a bullet array
+* Listen in on bullets being shot:
+
+```javascript
+// Listen in on bullets being shot 
+socket.on('bullet-shot',function(bullet_state){
+	// bullet_state should be an object like {x:[Number],y:[Number],speed_x:[Number],speed_y:[Number]}
+	bullet_array.push(bullet_state);
+})
+```
+
+* Copy over the the bullet update code from the client. Your game loop should look something like this:
+
+```javascript
+var fps = 60;
+gameloop.setGameLoop(function(delta) {
+	// This will run at 60 fps 
+	for(var i=0;i<bullet_array.length;i++){
+        var bullet = bullet_array[i];
+        bullet.x += bullet.speed_x; // Notice it's no longer bullet.sprite.x 
+        bullet.y += bullet.speed_y; 
+        // Remove if it goes too far off screen 
+        if(bullet.sprite.x < -10 || bullet.sprite.x > 2000 || bullet.sprite.y < -10 || bullet.sprite.y > 2000){
+            bullet_array.splice(i,1);
+            // "Destroying" a bullet now is just a matter of removing it from the array 
+            // The client is responsible for handling the actual sprites 
+            i--;
+        }
+    } 
+
+}, 1000 / fps);
+```
+
+* Emit the bullet array to everyone **in your game loop**:
+
+```javascript
+io.emit('bullet-update',bullet_array);
+```
+
+### 3. c. Render Bullets on Client 
+
 ## Bonus: Unique Ship Types
 
 TODO: Describe making the server give each ship a unique ship type. 
