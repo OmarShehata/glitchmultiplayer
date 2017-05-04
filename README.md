@@ -267,9 +267,22 @@ Now test it out! **There should be a bug in there. Can you fix it?**
 
 The complete implementation of this step is on the [step3](https://github.com/OmarShehata/glitchmultiplayer/tree/step3). 
 
+## 4. Bullet Collision 
+
+To make the players that get hit flash, you need to:
+
+* Make the server `emit` to all clients when a bullet is close enough to a player.
+* Make the client listen and set `sprite.alpha = 0` on whoever got hit. 
+
+**Try doing this on your own.** As always, if you get stuck, the solution is up on [step4](https://github.com/OmarShehata/glitchmultiplayer/tree/step4). 
+
 ## Bonus: Unique Ship Types
 
-TODO: Describe making the server give each ship a unique ship type. 
+You might have noticed there's a whole bunch of ship types in the assets folder.
+
+It would be nice if each player had a consistent, unique ship type. Can you set it up so that the server assigns each player a unique ship type?  
+
+![screenshot](misc/unique_ships.png)
 
 ## Bonus: Intepolate Positions 
 
@@ -279,5 +292,12 @@ In an ideal world, you'll have a constant stream of position updates and all you
 
 ## Bonus: Simulate Bullet on Client 
 
-TODO: To reduce the amount of data we're sending, we can simulate the bullet visually on the client. 
+Sending the positions of every bullet at every frame is a lot of data. We can actually get by with much less by:
 
+* Only send to the client the initial position and speeds.
+* The client visually simulates all the bullets.
+* The server is still simulating the bullets in order to detect collision.
+
+This way, the bullets look smooth on each client, but the server is still in charge of who gets hit, and we don't have to rely on the client being honest about whether they got hit. 
+
+**Try implementing this on your own.** 
