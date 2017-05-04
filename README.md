@@ -221,7 +221,47 @@ gameloop.setGameLoop(function(delta) {
 io.emit('bullet-update',bullet_array);
 ```
 
+And that's it for the server!
+
 ### 3. c. Render Bullets on Client 
+
+* Tell the server every time we shoot, but **do NOT** actually create the sprite yet. So our shoot code looks like:
+
+```javascript
+// Shoot bullet 
+if(game.input.activePointer.leftButton.isDown && !this.shot){
+	var speed_x = Math.cos(this.sprite.rotation + Math.PI/2) * 20;
+	var speed_y = Math.sin(this.sprite.rotation + Math.PI/2) * 20;
+	socket.emit('bullet-shot',{x:this.sprite.x,y:this.sprite.y,speed_x:speed_x,speed_y:speed_y})
+	this.shot = true;
+}
+```
+
+* Delete the bullet update block inside the `GameLoop` function since that's happening on the server now. 
+* Listen for bullet updates and render the bullets:
+
+```javascript
+// Listen for bullet updates 
+socket.on('bullet-update',function(bullets){
+    // If there's not enough bullets on the client, create them
+    for(var i=0;i<bullets.length;i++){
+	if(bullet_array[i] == undefined){
+	    bullet_array[i] = game.add.sprite(bullets[i].x,bullets[i].y,'bullet');
+	} else {
+	    //Otherwise, just update it! 
+	    bullet_array[i].x = bullets[i].x; 
+	    bullet_array[i].y = bullets[i].y;
+	}
+    }
+    // Otherwise if there's too many, delete the extra 
+    for(var i=bullets.length;i<bullet_array.length;i++){
+	bullet_array[i].destroy();
+	bullet_array[i].splice(i,1);
+	i--;
+    }
+
+})
+```
 
 ## Bonus: Unique Ship Types
 
