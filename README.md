@@ -31,7 +31,7 @@ Now we're going to setup Socket.io to detect connections and spawn players.
 
 * Run `npm init` in your directory. 
 * Run `npm install socket.io`. 
-* Run 'npm install express'
+* Run `npm install express`.
 * Create the file `index.js` (the default name) to be your server with the following boilerplate snippet:
 ```javascript
 var express = require('express'); // Express contains some boilerplate to for routing and such
@@ -90,4 +90,70 @@ Now:
 
 * Instead of sending 0's, make it send the actual player's position and rotation 
 * Test it by running the server, then opening multiple windows with `localhost` and see if the server prints the correct positions.
+
+We want the client to listen in on the `update-players` event and create a ship in the right spot for each player:
+
+```javascript
+// Listen for other players connecting
+socket.on('update-players',function(players_data){
+    var players_found = {};
+    // Loop over all the player data received
+    for(var id in players_data){
+        // If the player hasn't been created yet
+        if(other_players[id] == undefined && id != socket.id){ // Make sure you don't create yourself
+            var data = players_data[id];
+            var p = CreateShip(data.type,data.x,data.y,data.angle);
+            other_players[id] = p;
+            console.log("Created new player at (" + data.x + ", " + data.y + ")");
+        }
+        players_found[id] = true;
+    }
+    // Check if a player is missing and delete them 
+    for(var id in other_players){
+        if(!players_found[id]){
+            other_players[id].destroy();
+            delete other_players[id];
+        }
+    }
+})
+```
+
+* Make sure you define the table `other_players` at the top of your code to keep track of the other ships. 
+* Test this out! You should see new ships being created on screen whenever anyone connects.
+
+**Problem: Notice that if someone disconnects, they'll still be on screen.**
+
+To fix that, we simply need to listen for a `disconnect` event on the server, delete that id from our table and emit a new `update-players` event. 
+
+You can see a functional implementation of that on the [step1](https://github.com/OmarShehata/glitchmultiplayer/tree/step1) branch.
+
+## 1.5 (Optional) Ngrok Setup
+
+If you want to expose your localhost to the outside world, so other people around you can join your game session, the `ngrok` package is an easy way to do that.
+
+TODO: Write how to install and use it. 
+
+## 2. Sync Positions
+
+This is where it gets interesting. We want to update players so we can see them moving in real time.
+
+TODO: Emit when move, and recieve on move 
+
+## 3. Sync Bullets
+
+You could sync the bullets the same way, but it would be better design to have the server simulate and handle them. 
+
+TODO: Give them this step with bullets done, but no hit signal. 
+
+## Bonus: Unique Ship Types
+
+TODO: Describe making the server give each ship a unique ship type. 
+
+## Bonus: Intepolate Positions 
+
+TODO: Describe interpolating positons of other players to reduce lag 
+
+## Bonus: Simulate Bullet on Client 
+
+TODO: To reduce the amount of data we're sending, we can simulate the bullet visually on the client. 
 
