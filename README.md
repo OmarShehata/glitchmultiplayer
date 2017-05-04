@@ -153,9 +153,11 @@ This is one straightforward way to sync a multiplayer game; send the state to ev
 
 ## 3. Sync Bullets
 
+A different way of syncing objects is by having the _server_ be in charge of the simulation and just instruct the clients where to render things. This is more work on the server, but is more cheat-proof. The general idea is:
 
-
-TODO: Give them this step with bullets done, but no hit signal. 
+* Clients `emit` when they fire a bullet 
+* Server simulates all the bullet motion 
+* Server broadcasts the position of every bullet to everyone 
 
 ## Bonus: Unique Ship Types
 
