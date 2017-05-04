@@ -1,0 +1,23 @@
+{
+  "name": "setup",
+  "version": "1.0.0",
+  "description": "This repo contains the starter kit & materials for my [GlitchCon 2017](http://www.glitchcon.mn/) workshop on multiplayer games.",
+  "main": "index.js",
+  "dependencies": {
+    "socket.io": "^1.7.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OmarShehata/glitchmultiplayer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OmarShehata/glitchmultiplayer/issues"
+  },
+  "homepage": "https://github.com/OmarShehata/glitchmultiplayer#readme"
+}

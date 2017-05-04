@@ -5,6 +5,9 @@
         <!-- Load the Phaser game library -->
         <script src="lib/phaser.min.js"></script>
 
+        <!-- Load the Socket.io networking library -->
+        <script src="/socket.io/socket.io.js"></script>
+
         <!-- Some simple styles and fonts -->
         <style type="text/css">
             body,html { /* Remove margins */
@@ -29,6 +32,9 @@
 
             var water_tiles = [];
             var bullet_array = [];
+            var socket;
+
+            var other_players = {};
 
             var player = {
                 sprite:null,//Will hold the sprite when it's created 
@@ -120,13 +126,37 @@
                     }
                 }
 
-              
+                socket = io();
 
                 // Create player
                 var player_ship_type = String(2);
                 player.sprite = game.add.sprite(Math.random() * WORLD_SIZE.w/2 + WORLD_SIZE.w/2,Math.random() * WORLD_SIZE.h/2 + WORLD_SIZE.h/2,'ship'+player_ship_type+'_1');
                 player.sprite.anchor.setTo(0.5,0.5);
                
+                socket.emit('new-player',{x:player.sprite.x,y:player.sprite.y,angle:player.sprite.rotation,type:player_ship_type})
+
+                // Listen for other players connecting
+                socket.on('update-players',function(players_data){
+                    var players_found = {};
+                    // Loop over all the player data received
+                    for(var id in players_data){
+                        // If the player hasn't been created yet
+                        if(other_players[id] == undefined && id != socket.id){ // Make sure you don't create yourself
+                            var data = players_data[id];
+                            var p = CreateShip(data.type,data.x,data.y,data.angle);
+                            other_players[id] = p;
+                            console.log("Created new player at (" + data.x + ", " + data.y + ")");
+                        }
+                        players_found[id] = true;
+                    }
+                    // Check if a player is missing and delete them 
+                    for(var id in other_players){
+                        if(!players_found[id]){
+                            other_players[id].destroy();
+                            delete other_players[id];
+                        }
+                    }
+                })
 
                 game.world.setBounds(0, 0, WORLD_SIZE.w, WORLD_SIZE.h);
 
