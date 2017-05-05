@@ -286,7 +286,7 @@ It would be nice if each player had a consistent, unique ship type. Can you set 
 
 ![screenshot](misc/unique_ships.png)
 
-## Bonus: Intepolate Positions 
+## Bonus: Interpolate Positions 
 
 In an ideal world, you'll have a constant stream of position updates and all your ships will look smooth. But we need to account for lag. One way to do that is to interpolate positions of the ships in between the time it takes to get another update. 
 
