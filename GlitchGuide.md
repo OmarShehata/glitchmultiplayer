@@ -10,14 +10,14 @@ Go to [https://glitch.com/edit/#!/wide-recess](https://glitch.com/edit/#!/wide-r
 
 Click **Show** (top left) to test it out. W or UP to move towards the mouse. Click to shoot. This is a basic functional single player game.  Your job is to implement the multiplayer part! 
 
+_You need to **"remix"** (top left) a project in order to fork it/make edits_
+
 Just to become familiar with the game's code, try your hand at some of these tasks in **index.html**:
 
 * Make the world bigger (line 28)
 * Make SPACEBAR also thrust forward (line 51)
 * Change your player ship type (line 126)
 * Make the bullets move slower (line 152)
-
-_You need to "remix" a project in order to fork it/make edits_
 
 ## 1. Detect & Spawn Players
 
