@@ -8,7 +8,7 @@ Just make an account on [Glitch.com](https://glitch.com/)!
 
 Go to [https://glitch.com/edit/#!/wide-recess](https://glitch.com/edit/#!/wide-recess) to access the initial project.
 
-Click **Show** to test it out. W or UP to move towards the mouse. Click to shoot. This is a basic functional single player game.  Your job is to implement the multiplayer part! 
+Click **Show** (top left) to test it out. W or UP to move towards the mouse. Click to shoot. This is a basic functional single player game.  Your job is to implement the multiplayer part! 
 
 Just to become familiar with the game's code, try your hand at some of these tasks in **index.html**:
 
