@@ -81,7 +81,7 @@ Now we need to include and initialize Socket.io on the client as well. Add this 
 <script src="/socket.io/socket.io.js"></script>
 ```
 
-Now inside the `create` function, initialize the socket object:
+Now inside the `create` function (around line 112) , initialize the socket object:
 
 ```javascript
 var socket = io(); // This triggers the 'connection' event on the server
