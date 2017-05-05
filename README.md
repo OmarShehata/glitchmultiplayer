@@ -23,7 +23,7 @@ W or UP to move towards the mouse. Click to shoot. This is a basic functional si
 Just to become familiar with the game's code, try your hand at some of these tasks:
 
 * Make the world bigger (line 28)
-* Make SPACE also thrust forward (line 51)
+* Make SPACEBAR also thrust forward (line 51)
 * Change your player ship type (line 126)
 * Make the bullets move slower (line 152)
 
