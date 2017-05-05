@@ -13,7 +13,7 @@ Click **Show** (top left) to test it out. W or UP to move towards the mouse. Cli
 Just to become familiar with the game's code, try your hand at some of these tasks in **index.html**:
 
 * Make the world bigger (line 28)
-* Make SPACE also thrust forward (line 51)
+* Make SPACEBAR also thrust forward (line 51)
 * Change your player ship type (line 126)
 * Make the bullets move slower (line 152)
 
